@@ -1,0 +1,17 @@
+{
+  "name": "<%= name %>",
+  "version": "0.0.0",
+  "dependencies": {
+
+  },
+  "devDependencies": {
+
+  },
+  "overrides": {
+      "bootstrap": {
+        "main": [
+          "dist/js/bootstrap.min.js",
+          "dist/css/bootstrap.css"
+        ]}
+      }
+}
