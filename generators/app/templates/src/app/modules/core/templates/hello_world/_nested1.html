@@ -1,4 +1,8 @@
 <div>
+	<% if (useRouter) {%>
 	<p>This is nested view 1 which didn't require entire reload of the page</p>
+	<% } else { %>
+	<p>This is nested view 1.</p>
+	<% } %>
 	<p>{{name}}</p>
 </div>

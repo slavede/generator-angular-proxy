@@ -1,7 +1,7 @@
 {
   "name": "generator-angular-proxy",
   "version": "0.0.1",
-  "description": "Created AngularJS project with possibility to write your proxy server and to use remote server as your backend.",
+  "description": "Creates AngularJS project with possibility to write your proxy server and to use remote server as your backend.",
   "files": [
     "generators/app"
   ],
@@ -9,6 +9,8 @@
     "yeoman-generator"
   ],
   "dependencies": {
+    "fs": "0.0.2",
+    "rmdir": "^1.2.0",
     "yeoman-generator": "^0.20.3"
   }
 }

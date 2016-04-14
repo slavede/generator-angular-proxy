@@ -1,0 +1,22 @@
+<div>
+	<p>
+		Hello there, today is {{ time | date}}.
+	</p>
+	
+	<p>
+		If you see this page you have successfully bootstrapped angular-proxy yeoman application.	
+	</p>
+
+	<p>
+		If you notice any issue please report it <a href="https://github.com/slavede/generator-angular-proxy/issues">here</a>.
+	</p>
+
+	<% if (useRouter) { %>
+	<a ui-sref="core-helloworld.nested1">See nested view 1</a>
+	<a ui-sref="core-helloworld.nested2">See nested view 2</a>
+	<div ui-view></div>
+	<% } else { %>
+	<a href="/hello-world/nested1">See nested view 1</a>
+	<a href="/hello-world/nested2">See nested view 2</a>
+	<% } %>
+</div>
