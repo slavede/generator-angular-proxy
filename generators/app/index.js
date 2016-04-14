@@ -117,12 +117,20 @@ module.exports = generators.Base.extend({
 				this.templatePath('src/app/_app.js'),
 				this.destinationPath('src/app/app.js'), injectOptions);
 
+      		this.fs.delete(this.destinationPath('src/app/_app.less'));
+      		this.fs.copyTpl(
+				this.templatePath('src/app/_app.less'),
+				this.destinationPath('src/app/app.less'), injectOptions);
+
       		this.fs.delete(this.destinationPath('gulp/_conf.js'));
       		this.fs.copyTpl(
 				this.templatePath('gulp/_conf.js'),
-				this.destinationPath('gulp/conf.js'), {
-					name: this.name
-				});
+				this.destinationPath('gulp/conf.js'), injectOptions);
+
+      		this.fs.delete(this.destinationPath('gulp/_build.js'));
+      		this.fs.copyTpl(
+				this.templatePath('gulp/_build.js'),
+				this.destinationPath('gulp/build.js'), injectOptions);
 
       		// example files (core module)
 
@@ -149,89 +157,11 @@ module.exports = generators.Base.extend({
 	  },
 	  //Install Dependencies,
     install: function() {
-        this.npmInstall([
-		    "body-parser",
-		    "browser-sync",
-		    "composable-middleware",
-		    "compression",
-		    "cookie-parser",
-		    "ejs",
-		    "errorhandler",
-		    "express",
-		    "lodash",
-		    "method-override",
-		    "morgan",
-		    "serve-favicon",
-		    "wiredep"
-	  	], {
-	  		'save' : true
-	  	});
-	  	this.npmInstall([
-			"babel-core",
-			"babel-loader",
-			"browser-sync-spa",
-			"chalk",
-			"connect-livereload",
-			"del",
-			"eslint",
-			"eslint-loader",
-			"eslint-plugin-angular",
-			"estraverse",
-			"express-http-proxy",
-			"gulp",
-			"gulp-angular-templatecache",
-			"gulp-autoprefixer",
-			"gulp-eslint",
-			"gulp-filter",
-			"gulp-flatten",
-			"gulp-inject",
-			"gulp-less",
-			"gulp-load-plugins",
-			"gulp-minify-css",
-			"gulp-minify-html",
-			"gulp-protractor",
-			"gulp-rename",
-			"gulp-replace",
-			"gulp-rev",
-			"gulp-rev-replace",
-			"gulp-size",
-			"gulp-sourcemaps",
-			"gulp-uglify",
-			"gulp-useref",
-			"gulp-using",
-			"gulp-util",
-			"gulp-watch",
-			"http-proxy-middleware",
-			"jasmine-core",
-			"jshint-stylish",
-			"karma",
-			"karma-babel-preprocessor",
-			"karma-chrome-launcher",
-			"karma-coffee-preprocessor",
-			"karma-coverage",
-			"karma-firefox-launcher",
-			"karma-html2js-preprocessor",
-			"karma-jade-preprocessor",
-			"karma-jasmine",
-			"karma-ng-html2js-preprocessor",
-			"karma-ng-jade2js-preprocessor",
-			"karma-ng-scenario",
-			"karma-phantomjs-launcher",
-			"karma-requirejs",
-			"karma-script-launcher",
-			"lodash",
-			"main-bower-files",
-			"ng-annotate",
-			"open",
-			"phantomjs-prebuilt",
-			"requirejs",
-			"should",
-			"supertest",
-			"uglify-save-license",
-			"wrench"
-	  	], {
-	  		'save-dev' : true
-	  	});
+    	// we have versions hardcoded since 
+    	// we have set up our build and server with these
+    	// it's easy to change those after project is initialized
+	  	this.npmInstall();
+
 	  	this.bowerInstall(this.bowerDependencies, { 'save': true } );
 
 	  	if (this.bowerDevDependencies.length > 0) {
@@ -246,11 +176,13 @@ module.exports = generators.Base.extend({
             console.log(this.destinationPath('src/app/modules/core/tests'));
             rmdir(this.destinationPath('src/app/modules/core/tests'));
         }
-        // replace all tildes and carets from bower.json and package.json to use concrete version
-        // so when someone else installs it he gets exact version
-        // because we can't assure who ever publishes new version
-        // will mark it correctly
+
+        // commit maybe not needed since we switched to fs module
         this.fs.commit(function() {
+	        // replace all tildes and carets from bower.json and package.json to use concrete version
+	        // so when someone else installs it he gets exact version
+	        // because we can't assure who ever publishes new version
+	        // will mark it correctly
             that.log('Reading from ');
             that.log(that.destinationPath('bower.json'));
             bowerContent = fs.readFileSync(that.destinationPath('bower.json'), "utf8");

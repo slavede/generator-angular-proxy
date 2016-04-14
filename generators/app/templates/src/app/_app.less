@@ -1,0 +1,33 @@
+// @import '../../bower_components/font-awesome/less/font-awesome.less';
+// @fa-font-path: '../../bower_components/font-awesome/fonts';
+
+ <% if (useBootstrap) {%>
+	@import '../../bower_components/bootstrap/less/bootstrap.less';
+	@icon-font-path: '../../bower_components/bootstrap/fonts/';
+ <% } else { %>
+	// define variables
+	@screen-xs-min: '480px';
+	@screen-sm-min: '768px';
+	@screen-md-min: '992px';
+	@screen-lg-min: '1200px';
+
+	@screen-xs-max: (@screen-sm-min - 1);
+	@screen-sm-max: (@screen-md-min - 1);
+	@screen-md-max: (@screen-lg-min - 1);
+ <% } %>
+
+ /**
+ * App-wide Styles
+ */
+
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+// it will iterate through entire app to find .less files and inject them here
+// injector
+
+// endinjector

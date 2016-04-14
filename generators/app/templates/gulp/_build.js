@@ -27,7 +27,7 @@ gulp.task('html', ['inject'], function () {
 
   return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
   	.pipe($.using())
-    .pipe(assets = $.useref.assets())
+    .pipe($.useref())
     .pipe($.using({prefix:'Using assets'}))
     .pipe($.rev())
     .pipe(jsFilter)
@@ -39,11 +39,12 @@ gulp.task('html', ['inject'], function () {
     .pipe(cssFilter)
     .pipe($.using({prefix:'Using files with cssFilter'}))
     .pipe($.sourcemaps.init())
+    <% if (useBootstrap) {%>
     .pipe($.replace('../../bower_components/bootstrap/fonts/', '../fonts/'))
+    <% } %>
     .pipe($.minifyCss({ processImport: false }))
     .pipe($.sourcemaps.write('maps'))
     .pipe(cssFilter.restore)
-    .pipe(assets.restore())
     .pipe($.useref())
     .pipe($.revReplace())
     .pipe(htmlFilter)
