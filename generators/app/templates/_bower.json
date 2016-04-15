@@ -8,10 +8,11 @@
 
   },
   "overrides": {
+      <% if (useBootstrap) { %>
       "bootstrap": {
         "main": [
-          "dist/js/bootstrap.min.js",
-          "dist/css/bootstrap.css"
+          "dist/js/bootstrap.min.js"
         ]}
-      }
+      <% } %>
+    }
 }

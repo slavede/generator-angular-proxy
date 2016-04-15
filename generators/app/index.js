@@ -30,24 +30,18 @@ module.exports = generators.Base.extend({
 	writing : {
 		// copy the configuration files
 		config : function() {
+            var injectOptions = {
+                name: this.name,
+                useRouter : this.useRouter,
+                useBootstrap : this.useBootstrap,
+                useAngularResource: this.useAngularResource,
+                useAngularCookies: this.useAngularCookies,
+                useAngularSanitize: this.useAngularSanitize,
+                title : this.title,
+                description : this.description
+            };
+
 			this.log('Copying configuration files');
-			this.fs.copyTpl(
-				this.templatePath('_package.json'),
-				this.destinationPath('package.json'), {
-					name: this.name
-				});
-
-          	this.fs.copyTpl(
-				this.templatePath('_bower.json'),
-				this.destinationPath('bower.json'), {
-					name: this.name
-				});
-
-          	this.fs.copyTpl(
-				this.templatePath('_karma.conf.js'),
-				this.destinationPath('karma.conf.js'), {
-					name: this.name
-				});
 
 			this.fs.copy(
 				this.templatePath('_bowerrc'),
@@ -94,8 +88,12 @@ module.exports = generators.Base.extend({
                 useBootstrap : this.useBootstrap,
                 useAngularResource: this.useAngularResource,
                 useAngularCookies: this.useAngularCookies,
-                useAngularSanitize: this.useAngularSanitize
+                useAngularSanitize: this.useAngularSanitize,
+                pageTitle : this.pageTitle,
+                description : this.description
             };
+            console.log('injectOptions');
+            console.log(injectOptions);
 
 	  		this.log('Copying app files');
 	  		this.directory('src', 'src');
@@ -103,13 +101,22 @@ module.exports = generators.Base.extend({
 	  		this.directory('gulp', 'gulp');
 	  		this.directory('e2e', 'e2e');
 
+			this.fs.copyTpl(
+				this.templatePath('_package.json'),
+				this.destinationPath('package.json'), injectOptions);
+
+          	this.fs.copyTpl(
+				this.templatePath('_bower.json'),
+				this.destinationPath('bower.json'), injectOptions);
+
+          	this.fs.copyTpl(
+				this.templatePath('_karma.conf.js'),
+				this.destinationPath('karma.conf.js'), injectOptions);
+
 	  		this.fs.delete(this.destinationPath('src/_index.html'));
       		this.fs.copyTpl(
 				this.templatePath('src/_index.html'),
-				this.destinationPath('src/index.html'), {
-					name: this.name,
-					useRouter : this.useRouter
-				});
+				this.destinationPath('src/index.html'), injectOptions);
 
 
       		this.fs.delete(this.destinationPath('src/app/_app.js'));
@@ -186,22 +193,40 @@ module.exports = generators.Base.extend({
             that.log('Reading from ');
             that.log(that.destinationPath('bower.json'));
             bowerContent = fs.readFileSync(that.destinationPath('bower.json'), "utf8");
-            console.log('bowerContent1');
-            console.log(bowerContent);
             bowerContent = bowerContent.replace(/\^/g, '').replace(/~/g, '');
-            console.log('bowerContent2');
-            console.log(bowerContent);
             fs.writeFileSync(that.destinationPath('bower.json'), bowerContent);
 
             packageContent = fs.readFileSync(that.destinationPath('package.json'), "utf8");
-            console.log('packageContent');
-            console.log(packageContent);
             packageContent = packageContent.replace(/\^/g, '').replace(/~/g, '');
             fs.writeFileSync(that.destinationPath('package.json'), packageContent);
         });
     },
 	prompting: {
-        prompt1 : function() {
+		prompt1 : function() {
+            var done = this.async();
+            this.prompt({
+                type    : 'input',
+                name    : 'pageTitle',
+                message : 'Page title (it will be displayed in tab)?',
+                default : ''
+            }, function (answers) {
+                this.pageTitle = answers.pageTitle;                
+                done();
+            }.bind(this));
+		},
+		prompt2 : function() {
+            var done = this.async();
+            this.prompt({
+                type    : 'input',
+                name    : 'description',
+                message : 'Project description (it will be set to meta description)?',
+                default : ''
+            }, function (answers) {
+                this.description = answers.description;                
+                done();
+            }.bind(this));
+		},
+        prompt3 : function() {
             var done = this.async();
             this.prompt({
                 type    : 'input',
@@ -219,7 +244,7 @@ module.exports = generators.Base.extend({
                 done();
             }.bind(this));
         },
-		prompt2 : function() {
+		prompt4 : function() {
 			var done = this.async();
 	    	this.prompt({
 		      	type    : 'input',
@@ -242,7 +267,7 @@ module.exports = generators.Base.extend({
 				done();
 			}.bind(this));
 		},
-		prompt3 : function() {
+		prompt5 : function() {
 			var done = this.async();
 	    	this.prompt({
 		      	type    : 'input',
@@ -264,7 +289,7 @@ module.exports = generators.Base.extend({
 				done();
 			}.bind(this));
 		},
-		prompt4 : function() {
+		prompt6 : function() {
 			var done = this.async();
 	    	this.prompt({
 		      	type    : 'input',
@@ -285,7 +310,7 @@ module.exports = generators.Base.extend({
 				done();
 			}.bind(this));
 		},
-		prompt5 : function() {
+		prompt7 : function() {
 			var done = this.async();
 	    	this.prompt({
 		      	type    : 'input',
@@ -306,7 +331,7 @@ module.exports = generators.Base.extend({
 				done();
 			}.bind(this));
 		},
-		prompt6 : function() {
+		prompt8 : function() {
 			var done = this.async();
 	    	this.prompt({
 		      	type    : 'input',
@@ -328,7 +353,7 @@ module.exports = generators.Base.extend({
 				done();
 			}.bind(this));
 		},
-		prompt7 : function() {
+		prompt9 : function() {
 			var done = this.async();
 	    	this.prompt({
 		      	type    : 'input',

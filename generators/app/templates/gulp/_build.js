@@ -19,43 +19,33 @@ var $ = require('gulp-load-plugins')({
 // 5. everything will be moved into dist folder then
 gulp.task('html', ['inject'], function () {
 
-  var htmlFilter = $.filter('*.html', { restore: true });
-  var jsFilter = $.filter(['**/*.js', conf.paths.tmp + '/serve/partials/templateCacheHtml.js'], { restore: true });
-  // var jsFilter = $.filter('**/*.js', { restore: true });
-  var cssFilter = $.filter('**/*.css', { restore: true });
-  var assets;
-
   return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
-  	.pipe($.using())
-    .pipe($.useref())
-    .pipe($.using({prefix:'Using assets'}))
-    .pipe($.rev())
-    .pipe(jsFilter)
-    .pipe($.using({prefix:'Using files with jsFilter'}))
-    .pipe($.sourcemaps.init())
-    .pipe($.uglify({ preserveComments: $.uglifySaveLicense })).on('error', conf.errorHandler('Uglify'))
-    .pipe($.sourcemaps.write('maps'))
-    .pipe(jsFilter.restore)
-    .pipe(cssFilter)
-    .pipe($.using({prefix:'Using files with cssFilter'}))
-    .pipe($.sourcemaps.init())
-    <% if (useBootstrap) {%>
-    .pipe($.replace('../../bower_components/bootstrap/fonts/', '../fonts/'))
-    <% } %>
-    .pipe($.minifyCss({ processImport: false }))
-    .pipe($.sourcemaps.write('maps'))
-    .pipe(cssFilter.restore)
-    .pipe($.useref())
+    .pipe($.using())
+    .pipe($.useref({newLine:'New file'}))
+    .pipe($.using({prefix:'useref'}))
+
+    .pipe($.if('*.js', $.using({prefix:'if *.js'})))
+    .pipe($.if('*.js', $.rev()))
+    .pipe($.if('*.js', $.sourcemaps.init()))
+    .pipe($.if('*.js', $.uglify({ preserveComments: $.uglifySaveLicense }).on('error', conf.errorHandler('Uglify'))))
+    .pipe($.if('*.js', $.sourcemaps.write('maps')))
+
+    .pipe($.if('*.css', $.using({prefix:'if *.css'})))
+    .pipe($.if('*.css', $.rev()))
+    .pipe($.if('*.css', $.sourcemaps.init()))
+    <% if (useBootstrap) { %>.pipe($.if('*.css', $.replace('../../bower_components/bootstrap/fonts/', '../fonts/')))<% } %>
+    .pipe($.if('*.css', $.minifyCss({ processImport: false })))
+    .pipe($.if('*.css', $.sourcemaps.write('maps')))
+
+    .pipe($.if('*.html',  $.using({prefix:'if html'})))
+    .pipe($.if('*.html',  $.minifyHtml({
+                                  empty: true,
+                                  spare: true,
+                                  quotes: true,
+                                  conditionals: true
+                                })))
+        // ))
     .pipe($.revReplace())
-    .pipe(htmlFilter)
-    .pipe($.using({prefix:'Using files with htmlFilter'}))
-    .pipe($.minifyHtml({
-      empty: true,
-      spare: true,
-      quotes: true,
-      conditionals: true
-    }))
-    .pipe(htmlFilter.restore)
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
     // .pipe($.using({prefix:'Moving to dist'}))
     .pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
