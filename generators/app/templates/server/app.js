@@ -25,14 +25,14 @@ var app = express();
 
 if (config.targetServer) {
     var proxy = proxyMiddleware(function(path, req) {
-        var useRealServer = false;
-        // console.log(req.method + ' ' + path);
-        if (!mockRoutes[req.url]) {
+        var pathname = url.parse(req.url).pathname,
+            useRealServer = false;
+        if (!mockRoutes[pathname]) {
             useRealServer =  true;
         } else {
-            if (mockRoutes[req.url] === '*') {
+            if (mockRoutes[pathname] === '*') {
                 useRealServer = false;
-            } else if (mockRoutes[req.url].indexOf(req.method) === -1) {
+            } else if (mockRoutes[pathname].indexOf(req.method) === -1) {
                 useRealServer = true;
             }
         }
