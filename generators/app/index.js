@@ -84,7 +84,9 @@ module.exports = generators.Base.extend({
                 mavenGroupId : this.mavenGroupId,
                 mavenArtifactId : this.mavenArtifactId,
                 mavenName : this.mavenName,
-                mavenFinalName : this.mavenFinalName
+                mavenFinalName : this.mavenFinalName,
+                nodeVersion : this.nodeVersion,
+                npmVersion : this.npmVersion
             };
             console.log('injectOptions');
             console.log(injectOptions);
@@ -459,7 +461,23 @@ module.exports = generators.Base.extend({
 					    			message : 'Enter final name:'
 					    		}, function(answers) {
 					    			that.mavenFinalName = answers.mavenFinalName;
-					    			done();
+
+						    		that.prompt({
+						    			type : 'input',
+						    			name : 'nodeVersion',
+						    			message : 'Enter node version (vX.X.X, https://nodejs.org/en/download/releases/):'
+						    		}, function(answers) {
+						    			that.nodeVersion = answers.nodeVersion;
+							    		
+							    		that.prompt({
+							    			type : 'input',
+							    			name : 'npmVersion',
+							    			message : 'Enter NPM version (X.X.X, https://github.com/npm/npm/releases):'
+							    		}, function(answers) {
+							    			that.npmVersion = answers.npmVersion;
+							    			done();
+							    		});
+						    		});
 					    		});
 				    		});
 			    		});
@@ -467,7 +485,7 @@ module.exports = generators.Base.extend({
 		    	} else {
 		    		done();
 		    	}
-			})
+			});
 		}
 	}
 });

@@ -9,6 +9,9 @@
 	<profiles>
 		<profile>
 			<id>dist</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
 			<build>
 				<finalName><%= mavenFinalName %></finalName>
 				<plugins>
@@ -25,6 +28,9 @@
                                     <directory>bower_components</directory>
                                 </fileset>
                                 <fileset>
+                                    <directory>node</directory>
+                                </fileset>
+                                <fileset>
                                     <directory>node_modules</directory>
                                 </fileset>
                                 <fileset>
@@ -34,25 +40,48 @@
                         </configuration>
                     </plugin>
 
-					<plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.7</version>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <!-- Use the latest released version: https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+                        <version>0.0.29</version>
                         <executions>
                             <execution>
-                                <id>gulp-build</id>
-                                <phase>compile</phase>
+                                <id>install node and npm</id>
                                 <goals>
-                                    <goal>run</goal>
+                                    <goal>install-node-and-npm</goal>
                                 </goals>
                                 <configuration>
-                                    <target name="gulp_build">
-                                        <exec osfamily="unix" dir="${project.basedir}" executable="gulp" failonerror="true">
-                                            <arg line="build" />
-                                        </exec>
-                                        <exec osfamily="windows" dir="${project.basedir}" executable="cmd" failonerror="true">
-                                            <arg line="/c gulp build" />
-                                        </exec>
-                                    </target>
+                                    <nodeVersion><%= nodeVersion %></nodeVersion>
+                                    <npmVersion><%= npmVersion %></npmVersion>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>npm install</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>install</arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>bower install</id>
+                                <goals>
+                                    <goal>bower</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>install</arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>gulp build</id>
+                                <goals>
+                                    <goal>gulp</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <arguments>build</arguments>
                                 </configuration>
                             </execution>
                         </executions>
