@@ -30,17 +30,6 @@ module.exports = generators.Base.extend({
 	writing : {
 		// copy the configuration files
 		config : function() {
-            var injectOptions = {
-                name: this.name,
-                useRouter : this.useRouter,
-                useBootstrap : this.useBootstrap,
-                useAngularResource: this.useAngularResource,
-                useAngularCookies: this.useAngularCookies,
-                useAngularSanitize: this.useAngularSanitize,
-                title : this.title,
-                description : this.description
-            };
-
 			this.log('Copying configuration files');
 
 			this.fs.copy(
@@ -86,11 +75,16 @@ module.exports = generators.Base.extend({
                 name: this.name,
                 useRouter : this.useRouter,
                 useBootstrap : this.useBootstrap,
+                useBootstrapLess : this.useBootstrapLess,
                 useAngularResource: this.useAngularResource,
                 useAngularCookies: this.useAngularCookies,
                 useAngularSanitize: this.useAngularSanitize,
                 pageTitle : this.pageTitle,
-                description : this.description
+                description : this.description,
+                mavenGroupId : this.mavenGroupId,
+                mavenArtifactId : this.mavenArtifactId,
+                mavenName : this.mavenName,
+                mavenFinalName : this.mavenFinalName
             };
             console.log('injectOptions');
             console.log(injectOptions);
@@ -139,6 +133,21 @@ module.exports = generators.Base.extend({
 				this.templatePath('gulp/_build.js'),
 				this.destinationPath('gulp/build.js'), injectOptions);
 
+
+      		if (this.useMaven) {
+      		this.fs.delete(this.destinationPath('_pom.xml'));
+      		this.fs.copyTpl(
+				this.templatePath('_pom.xml'),
+				this.destinationPath('pom.xml'), injectOptions);
+
+      		this.directory('WEB-INF', 'WEB-INF');
+      		this.fs.delete(this.destinationPath('WEB-INF/_web.xml'));
+      		this.fs.copyTpl(
+				this.templatePath('WEB-INF/_web.xml'),
+				this.destinationPath('WEB-INF/web.xml'), injectOptions);
+      		}
+
+
       		// example files (core module)
 
       		this.fs.delete(this.destinationPath('src/app/modules/core/_module.js'));
@@ -160,6 +169,9 @@ module.exports = generators.Base.extend({
       		this.fs.copyTpl(
 				this.templatePath('src/app/modules/core/templates/hello_world/_nested2.html'),
 				this.destinationPath('src/app/modules/core/templates/hello_world/nested2.html'), injectOptions);
+
+      		// remove file we had to have because .directory doesn't copy empty folders
+      		this.fs.delete(this.destinationPath('src/assets/fonts/place_fonts_here'));
 	  	}
 	  },
 	  //Install Dependencies,
@@ -190,8 +202,6 @@ module.exports = generators.Base.extend({
 	        // so when someone else installs it he gets exact version
 	        // because we can't assure who ever publishes new version
 	        // will mark it correctly
-            that.log('Reading from ');
-            that.log(that.destinationPath('bower.json'));
             bowerContent = fs.readFileSync(that.destinationPath('bower.json'), "utf8");
             bowerContent = bowerContent.replace(/\^/g, '').replace(/~/g, '');
             fs.writeFileSync(that.destinationPath('bower.json'), bowerContent);
@@ -200,6 +210,12 @@ module.exports = generators.Base.extend({
             packageContent = packageContent.replace(/\^/g, '').replace(/~/g, '');
             fs.writeFileSync(that.destinationPath('package.json'), packageContent);
         });
+
+        // if (this.useMaven === false) {
+        // 	console.log('Removing maven files');
+        // 	rmdir(this.destinationPath('WEB-INF'));
+        // 	this.fs.delete(this.destinationPath('pom.xml'));
+        // }
     },
 	prompting: {
 		prompt1 : function() {
@@ -245,7 +261,25 @@ module.exports = generators.Base.extend({
             }.bind(this));
         },
 		prompt4 : function() {
-			var done = this.async();
+			var done = this.async(),
+				that = this;
+			function bootstrapLessQuestion(callback) {
+				that.prompt({
+			      	type    : 'input',
+			      	name    : 'useBootstrapLess',
+			      	message : 'Do you want to use Bootstrap LESS (it will be compiled into your css, but you will be able to use it\'s variables)? (Y/n)',
+			      	default : 'Y'
+			    }, function(answers) {
+			    	if (answers.useBootstrapLess === 'Y') {
+			    		that.useBootstrapLess = true;
+			    	} else if (answers.useBootstrapLess !== 'n') {
+			    		that.log('Unknown option. Going with default answer (Y)');
+			    		that.useBootstrapLess = true;
+			    	}
+			    	callback();
+			    });
+			}
+
 	    	this.prompt({
 		      	type    : 'input',
 		      	name    : 'useBootstrap',
@@ -253,18 +287,21 @@ module.exports = generators.Base.extend({
 		      	default : 'Y'
 		    }, function (answers) {
 		    	this.useBootstrap = false;
+		    	this.useBootstrapLess = false;
 		    	if (answers.useBootstrap === 'Y') {
 		    		this.useBootstrap = true;
 		    		this.bowerDependencies.push('bootstrap');
 		    		this.bowerDependencies.push('angular-bootstrap');
+		    		bootstrapLessQuestion(done);
 		    	} else if (answers.useBootstrap !== 'n') {
 		    		this.useBootstrap = true;
 		    		this.log('Unknown option. Going with default answer (Y)');
 		    		this.bowerDependencies.push('bootstrap');
 		    		this.bowerDependencies.push('angular-bootstrap');
+		    		bootstrapLessQuestion(done);
+		    	} else {
+		    		done();	
 		    	}
-		    	
-				done();
 			}.bind(this));
 		},
 		prompt5 : function() {
@@ -376,6 +413,61 @@ module.exports = generators.Base.extend({
 		    	}
 				done();
 			}.bind(this));
+		},
+		prompt10 : function() {
+			var done = this.async(),
+				that = this;
+			this.prompt({
+				type : 'input',
+				name : 'useMaven',
+				message : 'Are you going to use Maven for packaging? (Y/n)',
+				default : 'Y'
+			}, function(answers) {
+		    	that.useMaven = false;
+		    	if (answers.useMaven === 'Y') {
+		    		that.useMaven = true;
+		    	} else if (answers.useMaven !== 'n') {
+		    		that.useMaven = true;
+		    		that.log('Unknown option. Going with default answer (Y)');
+		    	}
+
+		    	if (that.useMaven) {
+		    		that.prompt({
+		    			type : 'input',
+		    			name : 'mavenGroupId',
+		    			message : 'Enter groupId:'
+		    		}, function(answers) {
+		    			that.mavenGroupId = answers.mavenGroupId;
+
+			    		that.prompt({
+			    			type : 'input',
+			    			name : 'mavenArtifactId',
+			    			message : 'Enter artifactId:'
+			    		}, function(answers) {
+			    			that.mavenArtifactId = answers.mavenArtifactId;
+				    		
+				    		that.prompt({
+				    			type : 'input',
+				    			name : 'mavenName',
+				    			message : 'Enter name:'
+				    		}, function(answers) {
+				    			that.mavenName = answers.mavenName;
+				    			
+					    		that.prompt({
+					    			type : 'input',
+					    			name : 'mavenFinalName',
+					    			message : 'Enter final name:'
+					    		}, function(answers) {
+					    			that.mavenFinalName = answers.mavenFinalName;
+					    			done();
+					    		});
+				    		});
+			    		});
+		    		});
+		    	} else {
+		    		done();
+		    	}
+			})
 		}
 	}
 });

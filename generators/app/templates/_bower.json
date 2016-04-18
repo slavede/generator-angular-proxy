@@ -1,17 +1,18 @@
 {
-  "name": "<%= name %>",
-  "version": "0.0.0",
-  "dependencies": {
-
-  },
-  "devDependencies": {
-
-  },
-  "overrides": {
-      <% if (useBootstrap) { %>
-      "bootstrap": {
-        "main": [
-          "dist/js/bootstrap.min.js"
+    "name": "<%= name %>",
+    "version": "0.0.0",
+    "dependencies": {},
+    "devDependencies": {},
+    "overrides": { <% if (useBootstrap) { %>
+        "bootstrap": {
+            "main": [
+                "dist/js/bootstrap.min.js",
+                "glyphicons-halflings-regular.eot",
+                "glyphicons-halflings-regular.svg",
+                "glyphicons-halflings-regular.ttf",
+                "glyphicons-halflings-regular.woff",
+                "glyphicons-halflings-regular.woff2"<% if (!useBootstrapLess) { %>,
+                "dist/css/bootstrap.min.css" <% } %>
         ]}
       <% } %>
     }

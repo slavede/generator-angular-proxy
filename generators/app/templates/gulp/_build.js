@@ -33,7 +33,7 @@ gulp.task('html', ['inject'], function () {
     .pipe($.if('*.css', $.using({prefix:'if *.css'})))
     .pipe($.if('*.css', $.rev()))
     .pipe($.if('*.css', $.sourcemaps.init()))
-    <% if (useBootstrap) { %>.pipe($.if('*.css', $.replace('../../bower_components/bootstrap/fonts/', '../fonts/')))<% } %>
+    <% if (useBootstrap) { %>.pipe($.if('*.css', $.replace('../../bower_components/bootstrap/fonts/', '../assets/fonts/')))<% } %>
     .pipe($.if('*.css', $.minifyCss({ processImport: false })))
     .pipe($.if('*.css', $.sourcemaps.write('maps')))
 
@@ -55,9 +55,10 @@ gulp.task('html', ['inject'], function () {
 // Custom fonts are handled by the "other" task
 gulp.task('fonts', function () {
   return gulp.src($.mainBowerFiles())
+    .pipe($.using())
     .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
     .pipe($.flatten())
-    .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/assets/fonts/')));
 });
 
 gulp.task('other', function () {
@@ -70,6 +71,7 @@ gulp.task('other', function () {
     path.join('!' + conf.paths.src, '/**/*.{html,css,js,less}')
   ])
     .pipe(fileFilter)
+    .pipe($.using())
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')));
 });
 

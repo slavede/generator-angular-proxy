@@ -1,0 +1,75 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId><%= mavenGroupId %></groupId>
+	<artifactId><%= mavenArtifactId %></artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name><%= mavenName %></name>
+
+	<profiles>
+		<profile>
+			<id>dist</id>
+			<build>
+				<finalName><%= mavenFinalName %></finalName>
+				<plugins>
+					
+					<plugin>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <version>2.5</version>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>.tmp</directory>
+                                </fileset>
+                                <fileset>
+                                    <directory>bower_components</directory>
+                                </fileset>
+                                <fileset>
+                                    <directory>node_modules</directory>
+                                </fileset>
+                                <fileset>
+                                    <directory>dist</directory>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </plugin>
+
+					<plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <id>gulp-build</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target name="gulp_build">
+                                        <exec osfamily="unix" dir="${project.basedir}" executable="gulp" failonerror="true">
+                                            <arg line="build" />
+                                        </exec>
+                                        <exec osfamily="windows" dir="${project.basedir}" executable="cmd" failonerror="true">
+                                            <arg line="/c gulp build" />
+                                        </exec>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.4</version>
+                        <configuration>
+                            <warSourceDirectory>dist</warSourceDirectory>
+                            <webXml>WEB-INF/web.xml</webXml>
+                        </configuration>
+                    </plugin>
+
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
