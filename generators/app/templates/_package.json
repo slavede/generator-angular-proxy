@@ -78,6 +78,7 @@
         "open": "0.0.5",
         "phantomjs-prebuilt": "2.1.7",
         "requirejs": "2.2.0",
+        "run-sequence": "1.1.5",
         "should": "8.3.0",
         "supertest": "1.2.0",
         "uglify-save-license": "0.4.1",

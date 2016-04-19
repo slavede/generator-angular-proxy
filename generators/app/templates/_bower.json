@@ -7,11 +7,11 @@
         "bootstrap": {
             "main": [
                 "dist/js/bootstrap.min.js",
-                "glyphicons-halflings-regular.eot",
-                "glyphicons-halflings-regular.svg",
-                "glyphicons-halflings-regular.ttf",
-                "glyphicons-halflings-regular.woff",
-                "glyphicons-halflings-regular.woff2"<% if (!useBootstrapLess) { %>,
+                "fonts/glyphicons-halflings-regular.eot",
+                "fonts/glyphicons-halflings-regular.svg",
+                "fonts/glyphicons-halflings-regular.ttf",
+                "fonts/glyphicons-halflings-regular.woff",
+                "fonts/glyphicons-halflings-regular.woff2"<% if (!useBootstrapLess) { %>,
                 "dist/css/bootstrap.min.css" <% } %>
         ]}
       <% } %>

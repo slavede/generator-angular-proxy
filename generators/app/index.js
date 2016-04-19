@@ -33,11 +33,6 @@ module.exports = generators.Base.extend({
 			this.log('Copying configuration files');
 
 			this.fs.copy(
-				this.templatePath('_bowerrc'),
-				this.destinationPath('.bowerrc'));
-
-
-			this.fs.copy(
 				this.templatePath('.buildignore'),
 				this.destinationPath('.buildignore'));
 
@@ -86,7 +81,8 @@ module.exports = generators.Base.extend({
                 mavenName : this.mavenName,
                 mavenFinalName : this.mavenFinalName,
                 nodeVersion : this.nodeVersion,
-                npmVersion : this.npmVersion
+                npmVersion : this.npmVersion,
+                bowerRegistry : this.bowerRegistry
             };
             console.log('injectOptions');
             console.log(injectOptions);
@@ -109,11 +105,14 @@ module.exports = generators.Base.extend({
 				this.templatePath('_karma.conf.js'),
 				this.destinationPath('karma.conf.js'), injectOptions);
 
+          	this.fs.copyTpl(
+				this.templatePath('_bowerrc'),
+				this.destinationPath('.bowerrc'), injectOptions);
+
 	  		this.fs.delete(this.destinationPath('src/_index.html'));
       		this.fs.copyTpl(
 				this.templatePath('src/_index.html'),
 				this.destinationPath('src/index.html'), injectOptions);
-
 
       		this.fs.delete(this.destinationPath('src/app/_app.js'));
       		this.fs.copyTpl(
@@ -486,6 +485,18 @@ module.exports = generators.Base.extend({
 		    		done();
 		    	}
 			});
+		},
+		prompt11 : function() {
+			var done = this.async();
+			this.prompt({
+				type :'input',
+				name : 'bowerRegistry',
+				message : 'Bower registry location? (leave empty to use default)',
+				default : ''
+			}, function(answers) {
+				this.bowerRegistry = answers.bowerRegistry;
+				done();
+			}.bind(this));
 		}
 	}
 });
