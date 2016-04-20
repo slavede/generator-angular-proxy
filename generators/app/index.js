@@ -483,6 +483,7 @@ module.exports = generators.Base.extend({
 				default : ''
 			}, function(answers) {
 				this.bowerRegistry = answers.bowerRegistry;
+				this.config.save();
 				done();
 			}.bind(this));
 		}
