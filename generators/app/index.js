@@ -33,10 +33,6 @@ module.exports = generators.Base.extend({
 			this.log('Copying configuration files');
 
 			this.fs.copy(
-				this.templatePath('.buildignore'),
-				this.destinationPath('.buildignore'));
-
-			this.fs.copy(
 				this.templatePath('.editorconfig'),
 				this.destinationPath('.editorconfig'));
 
@@ -47,14 +43,6 @@ module.exports = generators.Base.extend({
 			this.fs.copy(
 				this.templatePath('.gitignore'),
 				this.destinationPath('.gitignore'));
-
-			this.fs.copy(
-				this.templatePath('.travis.yml'),
-				this.destinationPath('.travis.yml'));
-
-			this.fs.copy(
-				this.templatePath('.yo-rc.json'),
-				this.destinationPath('.yo-rc.json'));
 
 			this.fs.copy(
 				this.templatePath('gulpfile.js'),
