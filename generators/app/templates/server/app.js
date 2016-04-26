@@ -22,6 +22,7 @@ var mockRoutes = {
 
 // Setup server
 var app = express();
+var url = require('url');
 
 if (config.targetServer) {
     var proxy = proxyMiddleware(function(path, req) {
