@@ -24,16 +24,38 @@ var mockRoutes = {
 var app = express();
 var url = require('url');
 
+// returns methods which need to be mocked
+var isUrlMocked = function(url) {
+    var splittedUrl = url.split('/'),
+        retVal;
+
+    if (splittedUrl[splittedUrl.length - 1] !== '' && !isNaN(splittedUrl[splittedUrl.length - 1])) {
+        splittedUrl[splittedUrl.length -1] = ':id';
+    }
+
+    url = splittedUrl.join('/');
+
+    Object.keys(mockRoutes).forEach(function(key) {
+        if (url.indexOf(key) === 0) {
+            retVal = mockRoutes[key];
+        }
+    });
+
+    return retVal;
+}
+
 if (config.targetServer) {
     var proxy = proxyMiddleware(function(path, req) {
         var pathname = url.parse(req.url).pathname,
-            useRealServer = false;
-        if (!mockRoutes[pathname]) {
+            useRealServer = false,
+            methodsToMock = isUrlMocked(pathname);
+
+        if (!methodsToMock) {
             useRealServer =  true;
         } else {
-            if (mockRoutes[pathname] === '*') {
+            if (methodsToMock === '*') {
                 useRealServer = false;
-            } else if (mockRoutes[pathname].indexOf(req.method) === -1) {
+            } else if (methodsToMock.indexOf(req.method) === -1) {
                 useRealServer = true;
             }
         }
@@ -51,9 +73,6 @@ if (config.targetServer) {
 
     app.use(proxy);
 }
-
-
-
 
 var server = require('http').createServer(app);
 
