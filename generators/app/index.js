@@ -170,6 +170,9 @@ module.exports = generators.Base.extend({
     	// it's easy to change those after project is initialized
 	  	this.npmInstall();
 
+        this.log('Installing bowerDependencies');
+        this.log(this.bowerDependencies)
+
 	  	this.bowerInstall(this.bowerDependencies, { 'save': true } );
 
 	  	if (this.bowerDevDependencies.length > 0) {
