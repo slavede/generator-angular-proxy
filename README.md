@@ -1,28 +1,28 @@
 # generator-angular-proxy
 Yeoman generator that creates AngularJS project with possibility to write your proxy server and to use remote server as your backend
 
-## General idea
+### General idea
 
-## Installing generator
+### Installing generator
 
-## Running generator
+### Running generator
 
-# Development
+## Development
 
-## Running your project
+### Running your project
 
-### Development mode
+#### Development mode
 
-### Production mode
+#### Production mode
 
-### Running tests
+#### Running tests
 
-## Mocking servers
+### Mocking servers
 
-### Using only target server
+#### Using only target server
 You can develop your frontend by just using your frontend project and using remote backend.
 
-### Using mock and target server
+#### Using mock and target server
 You can develop your frontend by just using your frontend project and using remote backend, but in case remote backend is still missing some API you can write it inside your project.
 
-#### Mocking routes
+##### Mocking routes
