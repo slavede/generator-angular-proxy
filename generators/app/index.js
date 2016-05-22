@@ -165,7 +165,7 @@ module.exports = generators.Base.extend({
 	  },
 	  //Install Dependencies,
     install: function() {
-    	// we have versions hardcoded since 
+    	// we have versions hardcoded since
     	// we have set up our build and server with these
     	// it's easy to change those after project is initialized
 	  	this.npmInstall();
@@ -175,7 +175,7 @@ module.exports = generators.Base.extend({
 	  	if (this.bowerDevDependencies.length > 0) {
 	  		this.bowerInstall(this.bowerDevDependencies, {'save-dev' : true});
 	  	}
-	  
+
 	},
     end : function() {
         var bowerContent, packageContent, that = this;
@@ -215,7 +215,7 @@ module.exports = generators.Base.extend({
                 message : 'Page title (it will be displayed in tab)?',
                 default : ''
             }, function (answers) {
-                this.pageTitle = answers.pageTitle;                
+                this.pageTitle = answers.pageTitle;
                 done();
             }.bind(this));
 		},
@@ -227,7 +227,7 @@ module.exports = generators.Base.extend({
                 message : 'Project description (it will be set to meta description)?',
                 default : ''
             }, function (answers) {
-                this.description = answers.description;                
+                this.description = answers.description;
                 done();
             }.bind(this));
 		},
@@ -236,7 +236,7 @@ module.exports = generators.Base.extend({
             this.prompt({
                 type    : 'input',
                 name    : 'angularVersion',
-                message : 'Which angular version you want to use?',
+                message : 'Which angular version (1.x version) you want to use?',
                 default : 'latest'
             }, function (answers) {
                 this.angularVersion = answers.angularVersion;
@@ -245,7 +245,7 @@ module.exports = generators.Base.extend({
                 } else {
                     this.angularVersion = '#' + this.angularVersion;
                 }
-                
+
                 done();
             }.bind(this));
         },
@@ -289,7 +289,7 @@ module.exports = generators.Base.extend({
 		    		this.bowerDependencies.push('angular-bootstrap');
 		    		bootstrapLessQuestion(done);
 		    	} else {
-		    		done();	
+		    		done();
 		    	}
 			}.bind(this));
 		},
@@ -311,7 +311,7 @@ module.exports = generators.Base.extend({
 		    		this.bowerDependencies.push('angular-resource' + this.angularVersion);
 
 		    	}
-		    	
+
 				done();
 			}.bind(this));
 		},
@@ -332,7 +332,7 @@ module.exports = generators.Base.extend({
 		    		this.log('Unknown option. Going with default answer (Y)');
 		    		this.bowerDependencies.push('angular-cookies' + this.angularVersion);
 		    	}
-		    	
+
 				done();
 			}.bind(this));
 		},
@@ -353,7 +353,7 @@ module.exports = generators.Base.extend({
 		    		this.log('Unknown option. Going with default answer (Y)');
 		    		this.bowerDependencies.push('angular-sanitize' + this.angularVersion);
 		    	}
-		    	
+
 				done();
 			}.bind(this));
 		},
@@ -434,14 +434,14 @@ module.exports = generators.Base.extend({
 			    			message : 'Enter artifactId:'
 			    		}, function(answers) {
 			    			that.mavenArtifactId = answers.mavenArtifactId;
-				    		
+
 				    		that.prompt({
 				    			type : 'input',
 				    			name : 'mavenName',
 				    			message : 'Enter name:'
 				    		}, function(answers) {
 				    			that.mavenName = answers.mavenName;
-				    			
+
 					    		that.prompt({
 					    			type : 'input',
 					    			name : 'mavenFinalName',
@@ -455,7 +455,7 @@ module.exports = generators.Base.extend({
 						    			message : 'Enter node version (vX.X.X, https://nodejs.org/en/download/releases/):'
 						    		}, function(answers) {
 						    			that.nodeVersion = answers.nodeVersion;
-							    		
+
 							    		that.prompt({
 							    			type : 'input',
 							    			name : 'npmVersion',

@@ -1,4 +1,4 @@
 {
     "directory": "bower_components"<% if (bowerRegistry !== '') { %>,
-    "registry" : <%= bowerRegistry %> <% } %>
+    "registry" : "<%= bowerRegistry %>" <% } %>
 }
