@@ -4,8 +4,7 @@
 
 'use strict';
 
-var path = require('path');
 
 module.exports = function(app) {
-  app.use('/api/testing', require('./api/testing'));
+    require('./api/testing')(app);
 };

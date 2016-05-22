@@ -2,7 +2,7 @@
 exports.targetServer = {
     ip : 'http://127.0.0.1',
     port : 3000,
-    restApi : '/api'
+    restApi : '/api' // used only in case ONLY targetServer is present (otherwise, mock server will put entire request through)
 }
 
 // where mocked server will be
