@@ -15,14 +15,22 @@ var proxyMiddleware = require('http-proxy-middleware')
 
 // Setup server
 var app = express();
-var server = require('http').createServer(app);
 
-require('./config/express')(app);
-require('./mocked-routes')(app);
+var regexPatterns = [];
 
 if (config.targetServer) {
-    var proxy = proxyMiddleware(function(path, req) {
-        return true
+    var proxy = proxyMiddleware(function(path) {
+        var useReal = true;
+        // go through all registered routes and test
+        regexPatterns.forEach(function(reg) {
+            if (path.match(reg)) {
+                useReal = false;
+            }
+        });
+        if (useReal) {
+            console.log('Using real server: ' + path);
+        }
+        return useReal;
     }, {
         target : config.targetServer.ip + (config.targetServer.port ? (':' + config.targetServer.port) : ''),
         changeOrigin:true
@@ -30,6 +38,26 @@ if (config.targetServer) {
 
     app.use(proxy);
 }
+
+
+var server = require('http').createServer(app);
+
+require('./config/express')(app);
+require('./mocked-routes')(app);
+
+
+app._router.stack.forEach(function(route){
+    if (route.route) {
+        regexPatterns.push(route.regexp);    
+    }    
+});
+
+console.log('Mocking following patterns: ');
+console.log(regexPatterns);
+
+
+// Start server
+var mockServerConf = config.mockServer;
 
 
 // Start server
