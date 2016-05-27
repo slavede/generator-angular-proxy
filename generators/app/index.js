@@ -69,8 +69,7 @@ module.exports = generators.Base.extend({
                 mavenName : this.mavenName,
                 mavenFinalName : this.mavenFinalName,
                 nodeVersion : this.nodeVersion,
-                npmVersion : this.npmVersion,
-                bowerRegistry : this.bowerRegistry
+                npmVersion : this.npmVersion
             };
             console.log('injectOptions');
             console.log(injectOptions);
@@ -476,19 +475,6 @@ module.exports = generators.Base.extend({
 		    		done();
 		    	}
 			});
-		},
-		prompt11 : function() {
-			var done = this.async();
-			this.prompt({
-				type :'input',
-				name : 'bowerRegistry',
-				message : 'Bower registry location? (leave empty to use default)',
-				default : ''
-			}, function(answers) {
-				this.bowerRegistry = answers.bowerRegistry;
-				this.config.save();
-				done();
-			}.bind(this));
 		}
 	}
 });
