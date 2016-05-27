@@ -44,8 +44,6 @@ Are you going to use Maven for packaging? (Y/n) (Y) // in case you select yes, y
   Enter final name:
   Enter node version (vX.X.X, https://nodejs.org/en/download/releases/): v5.9.1
   Enter NPM version (X.X.X, https://github.com/npm/npm/releases): 3.7.0
-
-Bower registry location? (leave empty to use default)
 ```
 ## Development
 After you answered all the questions it will install NPM and Bower dependencies.
