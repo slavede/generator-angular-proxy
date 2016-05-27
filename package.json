@@ -1,6 +1,6 @@
 {
     "name": "generator-angular-proxy",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Creates AngularJS project with possibility to write your proxy server and to use remote server as your backend.",
     "files": [
         "generators/app"
@@ -23,5 +23,11 @@
         "fs": "0.0.2",
         "rmdir": "^1.2.0",
         "yeoman-generator": "^0.20.3"
+    },
+    "repository" :
+    {
+        "type" : "git",
+        "url" : "https://github.com/slavede/generator-angular-proxy"
     }
+  }
 }
