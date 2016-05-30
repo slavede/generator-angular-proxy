@@ -15,18 +15,20 @@ var proxyMiddleware = require('http-proxy-middleware')
 
 // Setup server
 var app = express();
-
+var url = require('url');
 var regexPatterns = [];
 
 if (config.targetServer) {
-    var proxy = proxyMiddleware(function(path) {
-        var useReal = true;
+    var proxy = proxyMiddleware(function(path, req) {
+        var useReal = true,
+            pathname = url.parse(req.url).pathname;
         // go through all registered routes and test
         regexPatterns.forEach(function(reg) {
-            if (path.match(reg)) {
+            if (pathname.match(reg)) {
                 useReal = false;
             }
         });
+
         if (useReal) {
             console.log('Using real server: ' + path);
         }
