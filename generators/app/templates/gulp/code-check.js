@@ -9,6 +9,13 @@ var $ = require('gulp-load-plugins')({
 gulp.task('jshint', function() {
     return gulp.src(sources)
         .pipe($.using())
-        .pipe($.jshint())
+        .pipe($.jshint('src/.jshintrc'))
         .pipe($.jshint.reporter(require('jshint-stylish')));
+});
+
+gulp.task('jscs', function() {
+    return gulp.src(sources)
+        .pipe($.using())
+        .pipe($.jscs({configPath:'src/.jscsrc'}))
+        .pipe($.jscs.reporter());
 });
