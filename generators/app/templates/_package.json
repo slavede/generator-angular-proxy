@@ -82,7 +82,10 @@
         "should": "8.3.0",
         "supertest": "1.2.0",
         "uglify-save-license": "0.4.1",
-        "wrench": "1.5.9"
+        "wrench": "1.5.9",
+        "jshint": "2.9.2",
+        "jshint-stylish": "2.1.0",
+        "gulp-jshint": "2.0.1"
   },
   "engines": {
     "node": ">=0.12.7"
