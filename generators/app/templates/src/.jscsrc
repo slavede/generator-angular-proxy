@@ -1,0 +1,14 @@
+{
+    "preset": "crockford",
+    "disallowMixedSpacesAndTabs": true,
+    "disallowDanglingUnderscores" : false,
+    "requireSpaceBeforeBlockStatements" : true,
+    "maxErrors": 100,
+    "requireSpaceBeforeKeywords": [
+        "if",
+        "else",
+        "while",
+        "catch"
+    ],
+    "disallowKeywords": null
+}
