@@ -4,6 +4,7 @@ var $ = require('gulp-load-plugins')({
     path = require('path'),
     conf = require('./conf'),
     gulp = require('gulp'),
+    runSequence = require('run-sequence'),
     sources = [ path.join(conf.paths.src, '/app/**/*.js'), path.join(conf.paths.src, '/app/**/*.js')  ]
 
 gulp.task('jshint', function() {
@@ -18,4 +19,8 @@ gulp.task('jscs', function() {
         .pipe($.using())
         .pipe($.jscs({configPath:'src/.jscsrc'}))
         .pipe($.jscs.reporter());
+});
+
+gulp.task('code-check', function(done) {
+    runSequence('jshint', 'jscs', done);
 });
