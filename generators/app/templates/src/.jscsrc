@@ -4,6 +4,8 @@
     "disallowDanglingUnderscores" : false,
     "requireSpaceBeforeBlockStatements" : true,
     "maxErrors": 100,
+    "requireSpaceBeforeObjectValues" : true,
+    "requireCamelCaseOrUpperCaseIdentifiers": true,
     "requireSpaceBeforeKeywords": [
         "if",
         "else",
