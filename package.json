@@ -21,7 +21,6 @@
     ],
     "license": "MIT",
     "dependencies": {
-        "fs": "0.0.2",
         "rmdir": "^1.2.0",
         "yeoman-generator": "^0.20.3"
     },
