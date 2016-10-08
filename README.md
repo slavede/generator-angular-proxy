@@ -170,3 +170,29 @@ exports.mockServer = {
 }
 ```
 
+```
+mocked-routes.js
+
+module.exports = function(app) {
+    require('./api/mockmodule')(app);
+};
+```
+
+```
+/api/mockmodule.js
+
+module.exports = function(app) {
+    app.get('/api/mockedUrl', function(req, res) {
+        res.json({ items: [
+            {
+                id : 1,
+                item : 'Item 1'
+            },
+            {
+                id : 2,
+                item : 'Item 2'
+            }
+        ] });
+    });
+   };
+```
