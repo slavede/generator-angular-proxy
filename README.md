@@ -194,5 +194,5 @@ module.exports = function(app) {
             }
         ] });
     });
-   };
+};
 ```
