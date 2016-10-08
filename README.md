@@ -130,7 +130,43 @@ e.g. perspective of frontend developer:
 
 I have only frontend to develop, I don't have to mock and API endpoint and I have backend developer developing for me HTTP endpoint on his own (remote) machine. We agreed on API to be on /api endpoint
 
+[![target_only.png](https://s12.postimg.org/v2rb4913h/target_only.png)](https://postimg.org/image/vfipafjd5/)
+
+```
+/server/config/conf.js
+
+// where real server will be
+exports.targetServer = {
+    ip : 'http://www.outside.com,
+    port : '',
+    restApi : '/api'
+}
+
+```
 
 #### Using mock and target server
 You can develop your frontend by just using your frontend project and using remote backend, but in case remote backend is still missing some API you can write it inside your project.
+
+e.g. perspective of frontend developer
+I realized my backend developer will need more time to develop some feature so I'll quickly mock one API endpoint (/api/mockedUrl).
+
+[![target_mock.png](https://s21.postimg.org/enmmxkig7/target_mock.png)](https://postimg.org/image/cvto2nz37/)
+
+```
+/server/config/conf.js
+
+// where real server will be
+exports.targetServer = {
+    ip : 'http://www.outside.com,
+    port : '',
+    restApi : '/api'
+}
+
+// where mocked server will be
+exports.mockServer = {
+    port : 3002,
+    ip : '0.0.0.0',
+    restApi : '/api'
+}
+```
 
