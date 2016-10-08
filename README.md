@@ -126,6 +126,11 @@ There is an example inside api/testing/index.js how to mock some of the routes.
 #### Using only target server
 You can develop your frontend by just using your frontend project and using remote backend.
 
+e.g. perspective of frontend developer:
+
+I have only frontend to develop, I don't have to mock and API endpoint and I have backend developer developing for me HTTP endpoint on his own (remote) machine. We agreed on API to be on /api endpoint
+
+
 #### Using mock and target server
 You can develop your frontend by just using your frontend project and using remote backend, but in case remote backend is still missing some API you can write it inside your project.
 
