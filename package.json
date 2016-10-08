@@ -1,6 +1,6 @@
 {
     "name": "generator-angular-proxy",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "Creates AngularJS project with possibility to write your proxy server and to use remote server as your backend.",
     "files": [
         "generators/app"
