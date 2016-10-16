@@ -33,7 +33,7 @@ gulp.task('html', ['inject'], function () {
     .pipe($.if('*.css', $.using({prefix:'if *.css'})))
     .pipe($.if('*.css', $.rev()))
     .pipe($.if('*.css', $.sourcemaps.init()))
-    <% if (useBootstrap) { %>.pipe($.if('*.css', $.replace('../../bower_components/bootstrap/fonts/', '../assets/fonts/')))<% } %>
+    .pipe($.if('*.css', $.replace(/\.\.\/\.\.\/bower_components\/.*?\/fonts/g, '../assets/fonts/')))
     .pipe($.if('*.css', $.replace('../fonts/', '../assets/fonts/')))
     .pipe($.if('*.css', $.minifyCss({ processImport: false })))
     .pipe($.if('*.css', $.sourcemaps.write('maps')))
