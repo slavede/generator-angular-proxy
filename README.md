@@ -123,6 +123,28 @@ module.exports = function(app) {
 
 There is an example inside api/testing/index.js how to mock some of the routes.
 
+#### Using only mock server
+You can develop your frontend without any backend.
+
+e.g. perspective of frontend developer
+
+Backend hasn't start development yet, but you already agreed on some API so let's mock that API.
+
+[![mock_only.png](https://s12.postimg.org/xmtkg4wkt/mock_only.png)](https://postimg.org/image/jt57r33zd/)
+
+```
+/server/config/conf.js
+
+// where mocked server will be
+exports.mockServer = {
+    port : 3002,
+    ip : '0.0.0.0',
+    restApi : '/api'
+}
+
+
+```
+
 #### Using only target server
 You can develop your frontend by just using your frontend project and using remote backend.
 
