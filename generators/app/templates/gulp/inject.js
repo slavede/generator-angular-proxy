@@ -11,7 +11,7 @@ var _ = require('lodash');
 
 var browserSync = require('browser-sync');
 
-gulp.task('inject-reload', ['inject'], function() {
+gulp.task('inject-reload', ['inject:watch'], function() {
   browserSync.reload();
 });
 
