@@ -281,13 +281,13 @@ module.exports = generators.Base.extend({
 		    	this.useBootstrapLess = false;
 		    	if (answers.useBootstrap === 'Y') {
 		    		this.useBootstrap = true;
-		    		this.bowerDependencies.push('bootstrap');
+		    		this.bowerDependencies.push('bootstrap#3.x');
 		    		this.bowerDependencies.push('angular-bootstrap');
 		    		bootstrapLessQuestion(done);
 		    	} else if (answers.useBootstrap !== 'n') {
 		    		this.useBootstrap = true;
 		    		this.log('Unknown option. Going with default answer (Y)');
-		    		this.bowerDependencies.push('bootstrap');
+		    		this.bowerDependencies.push('bootstrap#3.x');
 		    		this.bowerDependencies.push('angular-bootstrap');
 		    		bootstrapLessQuestion(done);
 		    	} else {
