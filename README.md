@@ -130,7 +130,7 @@ e.g. perspective of frontend developer
 
 Backend hasn't start development yet, but you already agreed on some API so let's mock that API.
 
-![mock_only](https://user-images.githubusercontent.com/2838038/42086074-5a8e1776-7b92-11e8-8963-328d30ed5854.png)
+![mock_only](https://user-images.githubusercontent.com/2838038/42088979-c7fafd48-7b9b-11e8-91dc-d772c64b1afc.png)
 
 ```
 /server/config/conf.js
@@ -152,7 +152,7 @@ e.g. perspective of frontend developer:
 
 I have only frontend to develop, I don't have to mock and API endpoint and I have backend developer developing for me HTTP endpoint on his own (remote) machine. We agreed on API to be on /api endpoint
 
-![target_only](https://user-images.githubusercontent.com/2838038/42086072-5a5886a6-7b92-11e8-8f10-1420575e0b04.png)
+![target_only](https://user-images.githubusercontent.com/2838038/42088977-c7b46270-7b9b-11e8-861b-5fd4ec3a9e4c.png)
 
 ```
 /server/config/conf.js
@@ -172,7 +172,7 @@ You can develop your frontend by just using your frontend project and using remo
 e.g. perspective of frontend developer
 I realized my backend developer will need more time to develop some feature so I'll quickly mock one API endpoint (/api/mockedUrl).
 
-![both](https://user-images.githubusercontent.com/2838038/42086073-5a7140e2-7b92-11e8-98c9-28b8702d0816.png)
+![both](https://user-images.githubusercontent.com/2838038/42088978-c7e1249a-7b9b-11e8-8fee-6b8d510f3993.png)
 
 ```
 /server/config/conf.js
